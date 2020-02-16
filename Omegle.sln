@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 10.00
 # Visual Studio 2008
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OmegleAPI", "OmegleAPI\OmegleAPI.csproj", "{1DF56240-AA00-4080-909F-342022B93162}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OmegleCommandLine", "OmegleCommandLine\OmegleCommandLine.csproj", "{24F817FE-55F4-47F0-9A50-F51E7A410611}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OmegleClientWin", "OmegleClientWin\OmegleClientWin.csproj", "{5D7903EC-6D46-406B-A14C-610ACBB66EA7}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,10 +15,10 @@ Global
 		{1DF56240-AA00-4080-909F-342022B93162}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1DF56240-AA00-4080-909F-342022B93162}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1DF56240-AA00-4080-909F-342022B93162}.Release|Any CPU.Build.0 = Release|Any CPU
-		{24F817FE-55F4-47F0-9A50-F51E7A410611}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{24F817FE-55F4-47F0-9A50-F51E7A410611}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{24F817FE-55F4-47F0-9A50-F51E7A410611}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{24F817FE-55F4-47F0-9A50-F51E7A410611}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5D7903EC-6D46-406B-A14C-610ACBB66EA7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5D7903EC-6D46-406B-A14C-610ACBB66EA7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5D7903EC-6D46-406B-A14C-610ACBB66EA7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5D7903EC-6D46-406B-A14C-610ACBB66EA7}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

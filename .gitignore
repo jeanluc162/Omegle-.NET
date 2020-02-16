@@ -1,5 +1,5 @@
-/OmegleCommandLine/bin
-/OmegleCommandLine/obj
+/OmegleClientWin/bin
+/OmegleClientWin/obj
 /OmegleAPI/bin
 /OmegleAPI/obj
 *.dll
