@@ -1,0 +1,6 @@
+/OmegleCommandLine/bin
+/OmegleCommandLine/obj
+/OmegleAPI/bin
+/OmegleAPI/obj
+*.dll
+*.pdb
