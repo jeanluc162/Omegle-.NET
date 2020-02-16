@@ -1,7 +1,7 @@
 # Omegle-.NET
 A simple .NET wrapper for Omegle
 
-The goal of this project is to provide a simple .NET wrapper for omegle, the anonymous chat website, so people can use it for clients, bots or something else. check out omegles API here: https://gist.github.com/nucular/e19264af8d7fc8a26ece
+The goal of this project is to provide a simple .NET wrapper for omegle, the anonymous chat website, so people can use it for clients, bots or something else. Check out omegles API here: https://gist.github.com/nucular/e19264af8d7fc8a26ece
 
 This project is **targeted at .NET 3.5** and is being developed using **Visual Studio 2008**, opening it in a newer version and/or changing the Target-Framework should however not be a problem.
 
