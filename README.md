@@ -13,7 +13,7 @@ Just normal chatting, meaning you can
 - Set your Typing State
 - Get Notified via Events
   - When the strangers typing state changes
-  - When the strangers sends a message
+  - When the stranger sends a message
   - When the stranger disconnects
   - When the stranger connects
   
