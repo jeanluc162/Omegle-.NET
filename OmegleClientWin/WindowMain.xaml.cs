@@ -123,7 +123,7 @@ namespace OmegleClientWin
             if (RbChatmodeNormal.IsChecked == true)
             {
                 if (TbTopics.Text.Trim().Length > 0) OmegleClient.ConnectChatInterest(TbTopics.Text.Trim().Split(new char[] { ';' }));
-                OmegleClient.ConnectChat(null);
+                OmegleClient.ConnectChat(null, false);
             }
             else if (RbChatmodeSpyee.IsChecked == true) OmegleClient.ConnectChatSpyee();
             else if (RbChatmodeSpy.IsChecked == true)

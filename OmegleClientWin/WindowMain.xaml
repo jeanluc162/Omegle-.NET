@@ -30,8 +30,8 @@
             <RadioButton x:Name="RbChatmodeNormal" GroupName="ChatMode" Grid.Row="0" Grid.Column="0" Content="Normal Chat" Margin="3" HorizontalAlignment="Left" VerticalAlignment="Center" IsChecked="True"/>
             
             <!--These two are disabled for now because theres some Bug in the API that makes them connect to a normal Chat instead-->
-            <RadioButton x:Name="RbChatmodeSpyee" GroupName="ChatMode" Grid.Row="1" Grid.Column="0" Content="Spyee" Margin="3"  HorizontalAlignment="Left" VerticalAlignment="Center" IsEnabled="False"/>
-            <RadioButton x:Name="RbChatmodeSpy" GroupName="ChatMode" Grid.Row="2" Grid.Column="0" Content="Spy" Margin="3"  HorizontalAlignment="Left" VerticalAlignment="Center" IsEnabled="False"/>
+            <RadioButton x:Name="RbChatmodeSpyee" GroupName="ChatMode" Grid.Row="1" Grid.Column="0" Content="Spyee" Margin="3"  HorizontalAlignment="Left" VerticalAlignment="Center" IsEnabled="True"/>
+            <RadioButton x:Name="RbChatmodeSpy" GroupName="ChatMode" Grid.Row="2" Grid.Column="0" Content="Spy" Margin="3"  HorizontalAlignment="Left" VerticalAlignment="Center" IsEnabled="True"/>
             
             <TextBox x:Name="TbTopics" Grid.Row="0" Grid.Column="1" ToolTip="[Optional] Topics, Sperated by ';'" Margin="3" IsEnabled="False" /><!--IsEnabled="{Binding IsChecked, ElementName=RbChatmodeNormal}"   Disabled for now, Bug in the API -->
             <TextBox x:Name="TbSpyQuestion" Grid.Row="2" Grid.Column="1" ToolTip="Question" Margin="3" IsEnabled="{Binding IsChecked, ElementName=RbChatmodeSpy}"/>

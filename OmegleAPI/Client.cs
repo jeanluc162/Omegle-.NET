@@ -127,7 +127,7 @@ namespace OmegleAPI
             String PollEventResponse = "";
             try
             {
-                using (var PollEventsClient = new WebClient())
+                using (var PollEventsClient = new OmegleWebClient())
                 {
                     var values = new NameValueCollection();
                     values["id"] = _Shard;
@@ -203,7 +203,7 @@ namespace OmegleAPI
         {
             try
             {
-                using (var StartTypingClient = new WebClient())
+                using (var StartTypingClient = new OmegleWebClient())
                 {
                     var values = new NameValueCollection();
                     values["id"] = _Shard;
@@ -227,7 +227,7 @@ namespace OmegleAPI
         {
             try
             {
-                using (var StopTypingClient = new WebClient())
+                using (var StopTypingClient = new OmegleWebClient())
                 {
                     var values = new NameValueCollection();
                     values["id"] = _Shard;
@@ -247,7 +247,7 @@ namespace OmegleAPI
         {
             try
             {
-                using (var SendMessageClient = new WebClient())
+                using (var SendMessageClient = new OmegleWebClient())
                 {
                     var values = new NameValueCollection();
                     values["id"] = _Shard;
@@ -300,7 +300,7 @@ namespace OmegleAPI
         /// <returns>True if the attempt was successfull, False if it wasn't</returns>
         public Boolean ConnectChatSpy(String Question)
         {
-            return Connect(null, false, Question, null);
+            return Connect(null, false, Question, null, false);
         }
 
         /// <summary>
@@ -309,7 +309,7 @@ namespace OmegleAPI
         /// <returns>True if the attempt was successfull, False if it wasn't</returns>
         public Boolean ConnectChatSpyee()
         {
-            return Connect(null, true, null, null);
+            return Connect(null, true, null, null, false);
         }
 
         /// <summary>
@@ -319,17 +319,18 @@ namespace OmegleAPI
         /// <returns>True if the attempt was successfull, False if it wasn't</returns>
         public Boolean ConnectChatInterest(String[] Topics)
         {
-            return Connect(null, false, null, Topics);
+            return Connect(null, false, null, Topics, false);
         }
         
         /// <summary>
         /// Attempts to Connect to a Server in Normal Chat Mode
         /// </summary>
         /// <param name="Language">The desired Chat language (eg. "en" or "de"). If null, english is used. Only Seems to Work properly in Normal Chat mode</param>
+        /// <param name="Unmoderated">If true Connects to the unmoderated section</param>
         /// <returns>True if the attempt was successfull, False if it wasn't</returns>
-        public Boolean ConnectChat(String Language)
+        public Boolean ConnectChat(String Language, Boolean Unmoderated)
         {
-            return Connect(Language, false, null, null) ;
+            return Connect(Language, false, null, null, Unmoderated) ;
         }
 
         /// <summary>
@@ -341,7 +342,7 @@ namespace OmegleAPI
         /// <param name="topics">Attempts to connect to a Stranger with overlapping interests. Parameter is ignored if <c>Spyee</c> is set to true or if <c>Question</c> is not empty</param>
         /// <remarks>Is not to be called directly (Does not check the combination of parameters for validity). Usage of the <c>ConnectChat*</c> Functions is advised</remarks>
         /// <returns>True if the attempt was successfull, False if it wasn't</returns>
-        private Boolean Connect(String Language, Boolean Spyee, String Question, String[] topics)
+        private Boolean Connect(String Language, Boolean Spyee, String Question, String[] topics, Boolean Unmoderated)
         {            
             if (_Shard.Length > 0) return false; //Means there already is a Connection
             _Server = RandomServer();
@@ -356,9 +357,12 @@ namespace OmegleAPI
             Parameters["firstevents"] = "0";
             Parameters["randid"] = _Randid;
 
+            //Unmoderated
+            if (Unmoderated) Parameters["group"] = "unmon";
+
             //Language to Use
             if (Language != null) Parameters["lang"] = Language;
-            else if (Language != null) Parameters["lang"] = "en";
+            else Parameters["lang"] = "en";
             
             //Ask Question as Spy
             if (Question != null) Parameters["ask"] = Question;
@@ -386,7 +390,7 @@ namespace OmegleAPI
                 {
                     System.Diagnostics.Debug.WriteLine("OmegleApi.Client: [" + Key + " : " + Parameters[Key] + "]");    
                 }
-                using (var ShardClient = new WebClient())
+                using (var ShardClient = new OmegleWebClient())
                 {
                     var ShardResponse = ShardClient.UploadValues(URLs.Connect[0] + _Server + URLs.Connect[1], Parameters);
                     _Shard = Encoding.Default.GetString(ShardResponse).Replace("\"","");
@@ -434,7 +438,7 @@ namespace OmegleAPI
             {
                 try
                 {
-                    using (var DisconnectClient = new WebClient())
+                    using (var DisconnectClient = new OmegleWebClient())
                     {
                         var values = new NameValueCollection();
                         values["id"] = _Shard;
