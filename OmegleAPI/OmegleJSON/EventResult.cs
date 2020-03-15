@@ -5,6 +5,6 @@ namespace OmegleAPI.OmegleJSON
 {
     internal class EventResult
     {
-        public List<List<Object>> Events { get; set; }
+        public List<List<Object>> events { get; set; }
     }
 }

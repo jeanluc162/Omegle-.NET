@@ -9,6 +9,9 @@ This project is **targeted at .NET 3.5** and is being developed using **Visual S
 
 Just normal chatting, meaning you can
 
+- Specify topics to talk about
+- Discuss a question posted by a third-party (Spyee-Mode)
+- Let two strangers discuss a question of your choice (Spy-Mode)
 - Connect
 - Disconnect
 - Send a Message
@@ -21,13 +24,7 @@ Just normal chatting, meaning you can
   
 # What's left to do?
 
-Bugfixing, mainly. In principle, other functions such as
-
-- Same interests
-- Spy-Mode
-- Spyee-Mode
-  
-are already implemented, however, they just don't seem to work. The client always get's connected to a normal chat instead.
+Nothing that I know of. Feel free to open an issue tho!
 
 # How can I use the API?
 

@@ -6,6 +6,7 @@ using System.Net;
 using Newtonsoft.Json;
 using System.Collections.Specialized;
 using System.Timers;
+using System.IO;
 
 namespace OmegleAPI
 {
@@ -127,15 +128,15 @@ namespace OmegleAPI
             String PollEventResponse = "";
             try
             {
-                using (var PollEventsClient = new OmegleWebClient())
+                using (var PollEventsClient = new WebClient())
                 {
                     var values = new NameValueCollection();
                     values["id"] = _Shard;
 
                     PollEventResponse = Encoding.ASCII.GetString(PollEventsClient.UploadValues(URLs.Events[0] + _Server + URLs.Events[1], values));
                     OmegleJSON.EventResult Events = JsonConvert.DeserializeObject<OmegleJSON.EventResult>("{ \"Events\":" + PollEventResponse + "}"); //Response isn't really json, so it gets "corrected"
-                    if (Events.Events == null) return;
-                    foreach (List<Object> Event in Events.Events)
+                    if (Events.events == null) return;
+                    foreach (List<Object> Event in Events.events)
                     {
                         if (Event.Count == 0) continue;
                         if (Event[0].GetType() != typeof(String)) continue;
@@ -169,8 +170,8 @@ namespace OmegleAPI
                             case "spyMessage":
                                 if (SpyeeSentMessage!= null)
                                 {
-                                    if ((String)Event[1] == "Stranger <1/2>") SpyeeSentMessage(this, 1,(String)Event[2]);
-                                    else if ((String)Event[1] == "Stranger <2/2>") SpyeeSentMessage(this, 2, (String)Event[2]);
+                                    if ((String)Event[1] == "Stranger 1") SpyeeSentMessage(this, 1,(String)Event[2]);
+                                    else if ((String)Event[1] == "Stranger 2") SpyeeSentMessage(this, 2, (String)Event[2]);
                                 }
                                 break;
                             case "spyDisconnected":
@@ -203,7 +204,7 @@ namespace OmegleAPI
         {
             try
             {
-                using (var StartTypingClient = new OmegleWebClient())
+                using (var StartTypingClient = new WebClient())
                 {
                     var values = new NameValueCollection();
                     values["id"] = _Shard;
@@ -227,7 +228,7 @@ namespace OmegleAPI
         {
             try
             {
-                using (var StopTypingClient = new OmegleWebClient())
+                using (var StopTypingClient = new WebClient())
                 {
                     var values = new NameValueCollection();
                     values["id"] = _Shard;
@@ -247,7 +248,7 @@ namespace OmegleAPI
         {
             try
             {
-                using (var SendMessageClient = new OmegleWebClient())
+                using (var SendMessageClient = new WebClient())
                 {
                     var values = new NameValueCollection();
                     values["id"] = _Shard;
@@ -348,33 +349,34 @@ namespace OmegleAPI
             _Server = RandomServer();
             System.Diagnostics.Debug.WriteLine("OmegleAPI.Client: Decided on Server: " + _Server);
 
-            NameValueCollection Parameters = new NameValueCollection();
+            Dictionary<String,String> Parameters = new Dictionary<String,String>();
             
             //Has No deeper Meaning
-            Parameters["rcs"] = "1";
-            Parameters["spid"] = "";
-            Parameters["caps"] = "rechapta2";
-            Parameters["firstevents"] = "0";
-            Parameters["randid"] = _Randid;
+            Parameters.Add("rcs","1");
+            Parameters.Add("spid","");
+            Parameters.Add("caps","rechapta2");
+            Parameters.Add("firstevents","0");
+            Parameters.Add("randid",_Randid);
 
             //Unmoderated
-            if (Unmoderated) Parameters["group"] = "unmon";
+            if (Unmoderated) Parameters.Add("group", "unmon");
 
             //Language to Use
-            if (Language != null) Parameters["lang"] = Language;
-            else Parameters["lang"] = "en";
+            if (Language != null) Parameters.Add("lang", Language);
+            else Parameters.Add("lang", "en");
             
             //Ask Question as Spy
-            if (Question != null) Parameters["ask"] = Question;
+            if (Question != null) Parameters.Add("ask", Question);
 
             //Discuss a third party Question
-            if (Spyee) Parameters["wantsspy"] = "1";
+            if (Spyee) Parameters.Add("wantsspy", "1");
 
             //Search for common Interest
             if (topics != null)
             {
                 if (topics.Length > 0)
                 {
+                    Parameters.Add("topics", "");
                     Parameters["topics"] = "[";
                     Parameters["topics"] += "\"" + topics[0] + "\"";
                     for (int i = 1; i < topics.Length; i++) Parameters["topics"] += ", \"" + topics[i] + "\"";
@@ -390,11 +392,15 @@ namespace OmegleAPI
                 {
                     System.Diagnostics.Debug.WriteLine("OmegleApi.Client: [" + Key + " : " + Parameters[Key] + "]");    
                 }
-                using (var ShardClient = new OmegleWebClient())
+                HttpWebRequest ShardRequest = OmegleWebRequestFactory.CreateRequest(URLs.Connect[0] + _Server + URLs.Connect[1], Parameters);
+                using (var ShardResponse = ShardRequest.GetResponse())
                 {
-                    var ShardResponse = ShardClient.UploadValues(URLs.Connect[0] + _Server + URLs.Connect[1], Parameters);
-                    _Shard = Encoding.Default.GetString(ShardResponse).Replace("\"","");
-                    System.Diagnostics.Debug.WriteLine("OmegleAPI.Client: Received Shard: " + _Shard);
+                    using (StreamReader ShardReader = new StreamReader(ShardResponse.GetResponseStream(), System.Text.Encoding.ASCII))
+                    {
+                        OmegleJSON.StartResult startresult = JsonConvert.DeserializeObject<OmegleJSON.StartResult>(ShardReader.ReadToEnd());
+                        _Shard = startresult.clientID;
+                        System.Diagnostics.Debug.WriteLine("OmegleAPI.Client: Received Shard: " + _Shard);
+                    }
                 }
             }
             catch(Exception ex)
@@ -438,7 +444,7 @@ namespace OmegleAPI
             {
                 try
                 {
-                    using (var DisconnectClient = new OmegleWebClient())
+                    using (var DisconnectClient = new WebClient())
                     {
                         var values = new NameValueCollection();
                         values["id"] = _Shard;
