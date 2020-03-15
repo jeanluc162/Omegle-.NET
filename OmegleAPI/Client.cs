@@ -132,7 +132,7 @@ namespace OmegleAPI
                     var values = new NameValueCollection();
                     values["id"] = _Shard;
 
-                    PollEventResponse = Encoding.Default.GetString(PollEventsClient.UploadValues(URLs.Events[0] + _Server + URLs.Events[1], values));
+                    PollEventResponse = Encoding.ASCII.GetString(PollEventsClient.UploadValues(URLs.Events[0] + _Server + URLs.Events[1], values));
                     OmegleJSON.EventResult Events = JsonConvert.DeserializeObject<OmegleJSON.EventResult>("{ \"Events\":" + PollEventResponse + "}"); //Response isn't really json, so it gets "corrected"
                     if (Events.Events == null) return;
                     foreach (List<Object> Event in Events.Events)
@@ -351,7 +351,7 @@ namespace OmegleAPI
             NameValueCollection Parameters = new NameValueCollection();
             
             //Has No deeper Meaning
-            //Parameters["rcs"] = "1";
+            Parameters["rcs"] = "1";
             Parameters["spid"] = "";
             Parameters["caps"] = "rechapta2";
             Parameters["firstevents"] = "0";
