@@ -24,7 +24,7 @@ Just normal chatting, meaning you can
   
 # What's left to do?
 
-Nothing that I know of. Feel free to open an issue tho!
+- Implement Videochatting?
 
 # How can I use the API?
 
