@@ -1,6 +1,2 @@
-/OmegleClientWin/bin
-/OmegleClientWin/obj
-/OmegleAPI/bin
-/OmegleAPI/obj
 *.dll
 *.pdb
