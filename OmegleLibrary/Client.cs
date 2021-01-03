@@ -1,9 +1,14 @@
 ﻿using System;
+using System.IO;
 using System.Threading.Tasks;
+using System.Net;
+using System.Net.Http;
+using System.Net.Http.Json;
 
 namespace OmegleLibrary
 {
-    public class Client
+    //https://gist.github.com/nucular/e19264af8d7fc8a26ece
+    public class Client:IDisposable
     {
         private static class URLs
         {
@@ -19,10 +24,33 @@ namespace OmegleLibrary
         }
 
         private readonly String RandomID;
-
+        private String CurrentHost;
+        private HttpClient OmegleClient;
+        private Boolean disposed;
+        private String StartParameters = "";
         public Client()
         {
+            disposed = false;
+
+            //Generate the Random ID
             RandomID = GetRandomID();
+
+            //Set the current Host to the Main Omegle Host
+            CurrentHost = URLs.OmegleMain;
+
+            //Prepare the HTTPClient
+            HttpClientHandler OmegleHandler = new HttpClientHandler(){AutomaticDecompression = DecompressionMethods.GZip | DecompressionMethods.Deflate | DecompressionMethods.Brotli};
+            OmegleClient = new HttpClient(OmegleHandler);
+            OmegleClient.DefaultRequestHeaders.Clear();
+            OmegleClient.DefaultRequestHeaders.Add("Accept", "application/json");
+            OmegleClient.DefaultRequestHeaders.Add("Accept-Encoding", "gzip,deflate");
+            OmegleClient.DefaultRequestHeaders.Add("Accept-Language", "en-US;q=0.6,en;q=0.4");
+            OmegleClient.DefaultRequestHeaders.Add("Connection", "keep-alive");
+            OmegleClient.DefaultRequestHeaders.Add("DNT", "1");
+            OmegleClient.DefaultRequestHeaders.Add("Host", CurrentHost);
+            OmegleClient.DefaultRequestHeaders.Add("Origin", "https://www.omegle.com/");
+            OmegleClient.DefaultRequestHeaders.Add("Referer", "https://www.omegle.com/");
+            OmegleClient.DefaultRequestHeaders.Add("User-Agent", "Mozilla/5.0 (Windows NT 6.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/37.0.2062.94 Safari/537.36");
         }
         private String GetRandomID()
         {
@@ -49,22 +77,38 @@ namespace OmegleLibrary
 
         protected virtual async Task OnMessageReceivedAsync(String Message, Int32 Stranger)
         {
+            System.Diagnostics.Debug.WriteLine("OmegleLibrary: Client: Message Received: " + Stranger.ToString() + ": " + Message);
             return;
         }
         protected virtual async Task OnQuestionReceivedAsync(String Question)
         {
+            System.Diagnostics.Debug.WriteLine("OmegleLibrary: Client: Question Received: " + Question);
             return;
         }
         protected virtual async Task OnConnectedAsync()
         {
+            System.Diagnostics.Debug.WriteLine("OmegleLibrary: Client: Connected");
             return;
         }
         protected virtual async Task OnStrangerDisconnectedAsync(Int32 Stranger)
         {
+            System.Diagnostics.Debug.WriteLine("OmegleLibrary: Client: Stranger Disconnected: " + Stranger.ToString());
             return;
         }
         protected virtual async Task OnErrorAsync()
         {
+            System.Diagnostics.Debug.WriteLine("OmegleLibrary: Client: Error");
+            return;
+        }
+        protected virtual async Task OnSharedInterestsAsync(String[] SharedInterests)
+        {
+            String SharedInterestsString = "";
+            foreach(String SharedInterest in SharedInterests)
+            {
+                if(SharedInterestsString.Length > 0) SharedInterestsString += "|";
+                SharedInterestsString += SharedInterest;
+            }
+            System.Diagnostics.Debug.WriteLine("OmegleLibrary: Client: Shared Interests: " + SharedInterestsString);
             return;
         }
         protected async Task<Boolean> SendMessageAsync(String Message)
@@ -75,9 +119,34 @@ namespace OmegleLibrary
         {
             throw new NotImplementedException();
         }
-        public async Task StartAsync()
+        private async Task StartAsync()
         {
-            throw new NotImplementedException();
+            StatusResponse status = await OmegleClient.GetFromJsonAsync<StatusResponse>("https://" + URLs.OmegleMain + URLs.Status + "?" + WebUtility.UrlEncode("randid=" + RandomID));   
+            Random rnd = new Random();
+            CurrentHost = status.servers[rnd.Next(0,status.servers.Length)] + "." + URLs.OmegleMain;            
+        }
+        public async Task StartNormalAsync(String Language = "en", String[] Topics = null)
+        {
+            StartParameters = WebUtility.UrlEncode("");
+            await StartAsync();
+        }
+
+        //https://stackoverflow.com/a/31016954
+        public void Dispose()
+        {
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+        protected virtual void Dispose(bool disposing)
+        {
+            if(!disposed)
+            {
+                if(disposing)
+                {
+                    OmegleClient.Dispose();
+                }
+                disposed = true;
+            }
         }
     }
 }
