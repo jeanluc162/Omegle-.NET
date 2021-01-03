@@ -1,2 +1,6 @@
 *.dll
 *.pdb
+/OmegleConsole/bin
+/OmegleConsole/obj
+/OmegleLibrary/bin
+/OmegleLibrary/obj
