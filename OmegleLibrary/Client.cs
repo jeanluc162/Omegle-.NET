@@ -28,7 +28,7 @@ namespace OmegleLibrary
         private HttpClient OmegleClient;
         private Boolean disposed;
         private String StartParameters = "";
-        public Client()
+        public Client(IWebProxy Proxy = null)
         {
             disposed = false;
 
@@ -39,7 +39,10 @@ namespace OmegleLibrary
             CurrentHost = URLs.OmegleMain;
 
             //Prepare the HTTPClient
-            HttpClientHandler OmegleHandler = new HttpClientHandler(){AutomaticDecompression = DecompressionMethods.GZip | DecompressionMethods.Deflate | DecompressionMethods.Brotli};
+            HttpClientHandler OmegleHandler = new HttpClientHandler();
+            OmegleHandler.AutomaticDecompression = DecompressionMethods.GZip | DecompressionMethods.Deflate | DecompressionMethods.Brotli;
+            if(Proxy != null) OmegleHandler.Proxy = Proxy;
+            
             OmegleClient = new HttpClient(OmegleHandler);
             OmegleClient.DefaultRequestHeaders.Clear();
             OmegleClient.DefaultRequestHeaders.Add("Accept", "application/json");
