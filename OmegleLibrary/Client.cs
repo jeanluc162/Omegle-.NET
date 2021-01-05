@@ -1,5 +1,5 @@
 ﻿using System;
-using System.IO;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Net;
 using System.Net.Http;
@@ -28,6 +28,7 @@ namespace OmegleLibrary
         private HttpClient OmegleClient;
         private Boolean disposed;
         private String StartParameters = "";
+        private String ClientID = "";
         public Client(IWebProxy Proxy = null)
         {
             disposed = false;
@@ -118,19 +119,42 @@ namespace OmegleLibrary
         {
             throw new NotImplementedException();
         }
-        public async Task DisconnectAsync()
+        protected async Task DisconnectAsync()
         {
-            throw new NotImplementedException();
+            if(ClientID.Length == 0) throw new Exception("Client is not connected!");
+            FormUrlEncodedContent DisconnectContent = new FormUrlEncodedContent(new[]{
+                new KeyValuePair<String,String>("id", ClientID)
+            });
+
+            await OmegleClient.PostAsync("https://" + CurrentHost + URLs.Disconnect, DisconnectContent);
+            ClientID = "";
         }
-        private async Task StartAsync()
+        protected async Task StartAsync()
         {
             StatusResponse status = await OmegleClient.GetFromJsonAsync<StatusResponse>("https://" + URLs.OmegleMain + URLs.Status + "?" + WebUtility.UrlEncode("randid=" + RandomID));   
             Random rnd = new Random();
-            CurrentHost = status.servers[rnd.Next(0,status.servers.Length)] + "." + URLs.OmegleMain;            
+            CurrentHost = status.servers[rnd.Next(0,status.servers.Length)] + "." + URLs.OmegleMain;
+            HttpResponseMessage StartResponseMessage = await OmegleClient.PostAsync("https://" + CurrentHost + URLs.Start + "?" +  StartParameters + "&firstevents=1&rcs=1", null);
+            StartResponse start = await StartResponseMessage.Content.ReadFromJsonAsync<StartResponse>(); 
+            ClientID = start.clientID;        
         }
-        public async Task StartNormalAsync(String Language = "en", String[] Topics = null)
+        protected async Task StartNormalAsync(String Language = "en", String[] Topics = null, Boolean Unmonitored=false)
         {
-            StartParameters = WebUtility.UrlEncode("");
+            StartParameters = "&randid=" + RandomID + "&lang=" + Language;
+            if(Topics != null)
+            {
+                StartParameters += "&topics=";
+                String TopicsString = "[";
+                foreach (String Topic in Topics)
+                {
+                    if(TopicsString.Length > 1) TopicsString += ",";
+                    TopicsString += "\"" + Topic + "\"";
+                }
+                TopicsString += "]";
+                StartParameters += WebUtility.UrlEncode(TopicsString);
+            }
+            if(Unmonitored) StartParameters += "&group=unmon";
+
             await StartAsync();
         }
 
