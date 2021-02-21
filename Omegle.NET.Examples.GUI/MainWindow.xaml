@@ -7,6 +7,28 @@
         mc:Ignorable="d"
         Background="LightGray"
         Title="Omegle.NET.Examples.GUI" Height="450" Width="800">
+    <Window.Resources>
+        <Style TargetType="TextBox">
+            <Setter Property="Margin" Value="3"/>
+            <Setter Property="VerticalContentAlignment" Value="Center"/>
+        </Style>
+        <Style TargetType="TextBlock">
+            <Setter Property="Margin" Value="3"/>
+            <Setter Property="VerticalAlignment" Value="Center"/>
+        </Style>
+        <Style TargetType="Button">
+            <Setter Property="Margin" Value="3"/>
+            <Setter Property="VerticalContentAlignment" Value="Center"/>
+        </Style>
+        <Style TargetType="ComboBox">
+            <Setter Property="Margin" Value="3"/>
+            <Setter Property="VerticalContentAlignment" Value="Center"/>
+        </Style>
+        <Style TargetType="CheckBox">
+            <Setter Property="Margin" Value="3"/>
+            <Setter Property="VerticalContentAlignment" Value="Center"/>
+        </Style>
+    </Window.Resources>
     <Window.DataContext>
         <local:MainWindowVM/>
     </Window.DataContext>
@@ -26,7 +48,27 @@
                 <TabControl Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="3" Margin="3">
                     <TabControl.Items>
                         <TabItem Header="Normal">
-                            
+                            <Grid>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto"/>
+                                </Grid.RowDefinitions>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                </Grid.ColumnDefinitions>
+                                <Grid.Children>
+                                    <TextBlock Text="Language:" Grid.Row="0" Grid.Column="0"/>
+                                    <ComboBox IsEditable="False" Grid.Row="0" Grid.Column="1" ItemsSource="{Binding AvailableLanguages}" SelectedItem="{Binding SelectedLanguage}"/>
+                                    <TextBlock Text="Topics:" Grid.Row="0" Grid.Column="2"/>
+                                    <TextBox ToolTip="Seperate Topics by ','" Grid.Row="0" Grid.Column="3" Text="{Binding Path=Topics, Mode=OneWayToSource}"/>
+                                    <CheckBox Content="Unmoderated" Grid.Row="0" Grid.Column="4" IsChecked="{Binding Path=Unmoderated, Mode=OneWayToSource}"/>
+                                    <Button Content="(Re)Connect" Grid.Row="3" Grid.Column="5" Command="{Binding ReConnect}"/>
+                                </Grid.Children>
+                            </Grid>
                         </TabItem>
                         <TabItem Header="Spy Mode">
                             
@@ -48,8 +90,8 @@
                         <DataGridTextColumn Binding="{Binding Message}" Width="*"/>
                     </DataGrid.Columns>
                 </DataGrid>
-                <TextBox Grid.Row="2" Grid.Column="0" Margin="3"/>
-                <Button Grid.Row="2" Grid.Column="1" Content="Send Message" Margin="3"/>
+                <TextBox Grid.Row="2" Grid.Column="0"/>
+                <Button Grid.Row="2" Grid.Column="1" Content="Send Message"/>
             </Grid.Children>
         </Grid>
     </Window.Content>

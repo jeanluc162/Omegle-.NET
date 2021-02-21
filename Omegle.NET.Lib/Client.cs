@@ -11,7 +11,7 @@ namespace Omegle.NET.Lib
 {
     public partial class Client
     {
-        private omegle_oasClient _OmegleClient = new omegle_oasClient(new System.Net.Http.HttpClient());
+        private omegle_oasClient _OmegleClient = new omegle_oasClient(new System.Net.Http.HttpClient()) { BaseUrl = "https://omegle.com/"};
         private String _ClientID = null;
         private String _RandId;
         private Timer _EventsTimer;
@@ -69,7 +69,7 @@ namespace Omegle.NET.Lib
             try
             {
                 Status_response status = await _OmegleClient.StatusAsync(rnd.NextDouble(), _RandId);
-                _OmegleClient.BaseUrl = status.Servers.ElementAt(rnd.Next(0, status.Servers.Count));
+                _OmegleClient.BaseUrl = "https://" + status.Servers.ElementAt(rnd.Next(0, status.Servers.Count)) + ".omegle.com/";
                 
                 Start_params parameters = new Start_params { Randid = _RandId, Lang = lang };
                 if (WantsSpy) parameters.Wantsspy = Start_paramsWantsspy._1;
