@@ -1,48 +1,31 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 15
-VisualStudioVersion = 15.0.26124.0
-MinimumVisualStudioVersion = 15.0.26124.0
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OmegleLibrary", "OmegleLibrary\OmegleLibrary.csproj", "{5CFE9C8D-0EEA-4426-B2A4-1548B63D1C6A}"
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.31005.135
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Omegle.NET.Lib", "Omegle.NET.Lib\Omegle.NET.Lib.csproj", "{9AA31C56-85BB-4AAA-8313-2FF0FF11F3A7}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OmegleConsole", "OmegleConsole\OmegleConsole.csproj", "{B5B449F3-B760-4CC7-91D8-6F62839BEB3E}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Omegle.NET.Examples.GUI", "Omegle.NET.Examples.GUI\Omegle.NET.Examples.GUI.csproj", "{1C8BF406-2B36-455C-8D6A-A8597FAC7325}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
-		Debug|x64 = Debug|x64
-		Debug|x86 = Debug|x86
 		Release|Any CPU = Release|Any CPU
-		Release|x64 = Release|x64
-		Release|x86 = Release|x86
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{9AA31C56-85BB-4AAA-8313-2FF0FF11F3A7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9AA31C56-85BB-4AAA-8313-2FF0FF11F3A7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9AA31C56-85BB-4AAA-8313-2FF0FF11F3A7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9AA31C56-85BB-4AAA-8313-2FF0FF11F3A7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1C8BF406-2B36-455C-8D6A-A8597FAC7325}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1C8BF406-2B36-455C-8D6A-A8597FAC7325}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1C8BF406-2B36-455C-8D6A-A8597FAC7325}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1C8BF406-2B36-455C-8D6A-A8597FAC7325}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
-	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{5CFE9C8D-0EEA-4426-B2A4-1548B63D1C6A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{5CFE9C8D-0EEA-4426-B2A4-1548B63D1C6A}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{5CFE9C8D-0EEA-4426-B2A4-1548B63D1C6A}.Debug|x64.ActiveCfg = Debug|Any CPU
-		{5CFE9C8D-0EEA-4426-B2A4-1548B63D1C6A}.Debug|x64.Build.0 = Debug|Any CPU
-		{5CFE9C8D-0EEA-4426-B2A4-1548B63D1C6A}.Debug|x86.ActiveCfg = Debug|Any CPU
-		{5CFE9C8D-0EEA-4426-B2A4-1548B63D1C6A}.Debug|x86.Build.0 = Debug|Any CPU
-		{5CFE9C8D-0EEA-4426-B2A4-1548B63D1C6A}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{5CFE9C8D-0EEA-4426-B2A4-1548B63D1C6A}.Release|Any CPU.Build.0 = Release|Any CPU
-		{5CFE9C8D-0EEA-4426-B2A4-1548B63D1C6A}.Release|x64.ActiveCfg = Release|Any CPU
-		{5CFE9C8D-0EEA-4426-B2A4-1548B63D1C6A}.Release|x64.Build.0 = Release|Any CPU
-		{5CFE9C8D-0EEA-4426-B2A4-1548B63D1C6A}.Release|x86.ActiveCfg = Release|Any CPU
-		{5CFE9C8D-0EEA-4426-B2A4-1548B63D1C6A}.Release|x86.Build.0 = Release|Any CPU
-		{B5B449F3-B760-4CC7-91D8-6F62839BEB3E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{B5B449F3-B760-4CC7-91D8-6F62839BEB3E}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{B5B449F3-B760-4CC7-91D8-6F62839BEB3E}.Debug|x64.ActiveCfg = Debug|Any CPU
-		{B5B449F3-B760-4CC7-91D8-6F62839BEB3E}.Debug|x64.Build.0 = Debug|Any CPU
-		{B5B449F3-B760-4CC7-91D8-6F62839BEB3E}.Debug|x86.ActiveCfg = Debug|Any CPU
-		{B5B449F3-B760-4CC7-91D8-6F62839BEB3E}.Debug|x86.Build.0 = Debug|Any CPU
-		{B5B449F3-B760-4CC7-91D8-6F62839BEB3E}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{B5B449F3-B760-4CC7-91D8-6F62839BEB3E}.Release|Any CPU.Build.0 = Release|Any CPU
-		{B5B449F3-B760-4CC7-91D8-6F62839BEB3E}.Release|x64.ActiveCfg = Release|Any CPU
-		{B5B449F3-B760-4CC7-91D8-6F62839BEB3E}.Release|x64.Build.0 = Release|Any CPU
-		{B5B449F3-B760-4CC7-91D8-6F62839BEB3E}.Release|x86.ActiveCfg = Release|Any CPU
-		{B5B449F3-B760-4CC7-91D8-6F62839BEB3E}.Release|x86.Build.0 = Release|Any CPU
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {54A67882-A1B3-4E5F-A78C-EE77168FE291}
 	EndGlobalSection
 EndGlobal

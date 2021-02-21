@@ -1,0 +1,271 @@
+openapi: 3.0.0
+info:
+  title: Omegle Chat Api
+  version: 1.0.0
+externalDocs:
+  description: Extensive Description
+  url: https://gist.github.com/nucular/e19264af8d7fc8a26ece
+paths:
+  /status:
+    get:
+      summary: 'Retrieves Status Info'
+      parameters:
+        - name: nocache
+          in: query
+          required: false
+          schema:
+            type: number
+        - name: randid
+          in: query
+          required: false
+          schema:
+            type: string
+          description: >-
+            Random Characters using numbers from 2 to 9 and letters between A
+            and Z, but excluding "I" and "O"
+      operationId: ''
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/status_response'
+  /start:
+    post:
+      summary: 'Starts a new Chat'
+      requestBody:
+        required: true
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/start_params'
+      responses:
+        '200':
+          description: 'OK'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/start_response'
+  /events:
+    post:
+      summary: 'Retrieves Events'
+      requestBody:
+        required: true
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/id_params'
+      responses:
+        '200':
+          description: 'OK'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/events_response'
+  /send:
+    post:
+      summary: 'Sends a message'
+      requestBody:
+        required: true
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/send_params'
+      responses:
+        '200':
+          description: 'OK'
+          content:
+            text/plain:
+              schema:
+                $ref: '#/components/schemas/text_response'
+  /typing:
+    post:
+      summary: 'Sets own typing Status to "typing"'
+      requestBody:
+        required: true
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/id_params'
+      responses:
+        '200':
+          description: 'OK'
+          content:
+            text/plain:
+              schema:
+                $ref: '#/components/schemas/text_response'
+  /stoppedtyping:
+    post:
+      summary: 'Sets own typing Status to "not typing"'
+      requestBody:
+        required: true
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/id_params'
+      responses:
+        '200':
+          description: 'OK'
+          content:
+            text/plain:
+              schema:
+                $ref: '#/components/schemas/text_response'
+  /stoplookingforcommonlikes:
+    post:
+      summary: 'Stops looking for common likes (if topics where provided at /start)'
+      requestBody:
+        required: true
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/id_params'
+      responses:
+        '200':
+          description: 'OK'
+          content:
+            text/plain:
+              schema:
+                $ref: '#/components/schemas/text_response'
+  /disconnect:
+    post:
+      summary: 'Disconnects the Client'
+      requestBody:
+        required: true
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/id_params'
+      responses:
+        '200':
+          description: 'OK'
+          content:
+            text/plain:
+              schema:
+                $ref: '#/components/schemas/text_response'
+security: []
+servers:
+  - url: 'https://{server}'
+    description: ''
+    variables:
+      server:
+        description: The Server to Use. Choose one after doing a GET on /status!
+        default: omegle.com'
+components:
+  links: {}
+  callbacks: {}
+  schemas:
+    id_params:
+      type: object
+      properties:
+        id:
+          type: string
+          description: 'The clientID received from /start'
+      required:
+        - id
+    start_params:
+      type: object
+      properties:
+        rcs:
+          type: integer
+          default: 1
+          enum: [1]
+        firstevents:
+          type: integer
+          default: 1
+          enum: [0,1]
+        randid:
+          type: string
+          description: >-
+            Random Characters using numbers from 2 to 9 and letters between A
+            and Z, but excluding "I" and "O"
+        group:
+          type: string
+          description: 'Joins unmoderated chat'
+          enum: [unmon]
+        m:
+          type: integer
+          description: 'Imitates mobile connection'
+          enum: [1]
+        lang:
+          type: string
+          description: 'Two letter language code'
+          default: en
+        topics:
+          description: 'Shared topics. Only works for normal mode.'
+          type: array
+          items:
+            type: string
+        wantsspy:
+          description: 'Spyee mode'
+          type: integer
+          enum: [1]
+        ask:
+          description: 'Question (Spyer mode)'
+          type: string
+        cansavequestion:
+          description: 'Allows Omegle to reuse your question'
+          type: integer
+          enum: [1]
+      required:
+        - rcs
+        - firstevents
+        - randid
+    events_response:
+      externalDocs:
+        description: Event description
+        url: https://gist.github.com/nucular/e19264af8d7fc8a26ece#events
+      type: array
+      items:
+        type: array
+        items:
+          type: string
+    status_response:
+      type: object
+      properties:
+        count:
+          type: number
+        force_unmon:
+          type: boolean
+        antinudeservers:
+          type: array
+          items:
+            type: string
+        antinudepercent:
+          type: number
+        spyQueueTime:
+          type: number
+        spyeeQueueTime:
+          type: number
+        timestamp:
+          type: number
+        servers:
+          type: array
+          items:
+            type: string
+    start_response:
+      type: object
+      properties:
+        clientID:
+          type: string
+        events:
+          $ref: '#/components/schemas/events_response'
+        statusInfo:
+          $ref: '#/components/schemas/status_response'
+    send_params:
+      type: object
+      properties:
+        id:
+          type: string
+          description: 'The clientID received from /start'
+        msg:
+          type: string
+          description: 'The message to send'
+          example: 'Get rekt N00bs'
+      required:
+        - id
+        - msg
+    text_response:
+      type: string
+      example: win
+  securitySchemes: {}
