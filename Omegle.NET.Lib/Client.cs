@@ -2,6 +2,7 @@
 using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Linq;
+using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
 using System.Timers;
@@ -19,12 +20,15 @@ namespace Omegle.NET.Lib
         protected enum Errors {Antinude, General, ConnectionDied };
         public Client()
         {
-            HttpClient OmegleHttpClient = new HttpClient();
+            HttpClient OmegleHttpClient = new HttpClient(new HttpClientHandler { AutomaticDecompression = DecompressionMethods.All });
             OmegleHttpClient.DefaultRequestHeaders.Add("Connection", "keep-alive");
+            OmegleHttpClient.DefaultRequestHeaders.Add("Origin", "https://www.omegle.com");
+            OmegleHttpClient.DefaultRequestHeaders.Add("Referer", "https://www.omegle.com/");
+            OmegleHttpClient.DefaultRequestHeaders.Add("user-agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.182 Safari/537.36 Edg/88.0.705.74");
             _OmegleClient = new omegle_oasClient(OmegleHttpClient) { BaseUrl = "https://omegle.com/" };
 
 
-            _EventsTimer = new Timer { AutoReset = false, Enabled = false, Interval = 500 };
+            _EventsTimer = new Timer { AutoReset = false, Enabled = false, Interval = 2000 };
             _EventsTimer.Elapsed += _EventsTimer_Elapsed;
 
             _RandId = "";

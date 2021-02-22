@@ -207,7 +207,7 @@ servers:
     variables:
       server:
         description: The Server to Use. Choose one after doing a GET on /status!
-        default: omegle.com'
+        default: omegle.com
 components:
   links: {}
   callbacks: {}
