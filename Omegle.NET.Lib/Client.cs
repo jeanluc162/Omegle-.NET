@@ -2,6 +2,7 @@
 using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Linq;
+using System.Net.Http;
 using System.Threading.Tasks;
 using System.Timers;
 using Newtonsoft.Json;
@@ -11,13 +12,18 @@ namespace Omegle.NET.Lib
 {
     public partial class Client
     {
-        private omegle_oasClient _OmegleClient = new omegle_oasClient(new System.Net.Http.HttpClient()) { BaseUrl = "https://omegle.com/"};
+        private omegle_oasClient _OmegleClient;
         private String _ClientID = null;
         private String _RandId;
         private Timer _EventsTimer;
         protected enum Errors {Antinude, General, ConnectionDied };
         public Client()
         {
+            HttpClient OmegleHttpClient = new HttpClient();
+            OmegleHttpClient.DefaultRequestHeaders.Add("Connection", "keep-alive");
+            _OmegleClient = new omegle_oasClient(OmegleHttpClient) { BaseUrl = "https://omegle.com/" };
+
+
             _EventsTimer = new Timer { AutoReset = false, Enabled = false, Interval = 500 };
             _EventsTimer.Elapsed += _EventsTimer_Elapsed;
 
@@ -62,7 +68,7 @@ namespace Omegle.NET.Lib
                 return !String.IsNullOrWhiteSpace(_ClientID);
             }
         }
-        protected async Task ConnectAsync(String lang = "en", Boolean WantsSpy = false, String Question = null, String[] Topics = null, Boolean unmon = false, Boolean CanSaveQuestion = true)
+        protected async Task ConnectAsync(String lang = "en", Boolean wantsspy = false, String question = null, String[] topics = null, Boolean unmon = false, Boolean cansavequestion = true)
         {
             if (IsConnected) throw new AlreadyConnectedException(_ClientID);
             Random rnd = new Random();
@@ -70,16 +76,18 @@ namespace Omegle.NET.Lib
             {
                 Status_response status = await _OmegleClient.StatusAsync(rnd.NextDouble(), _RandId);
                 _OmegleClient.BaseUrl = "https://" + status.Servers.ElementAt(rnd.Next(0, status.Servers.Count)) + ".omegle.com/";
-                
-                Start_params parameters = new Start_params { Randid = _RandId, Lang = lang };
-                if (WantsSpy) parameters.Wantsspy = Start_paramsWantsspy._1;
-                if (Question is not null && !WantsSpy) parameters.Ask = Question;
-                if (Topics is not null && !WantsSpy && Question is null) parameters.Topics = Topics;
-                if (unmon) parameters.Group = Start_paramsGroup.Unmon;
-                if (CanSaveQuestion && Question is not null && !WantsSpy) parameters.Cansavequestion = Start_paramsCansavequestion._1;
 
-                Start_response startresult = await _OmegleClient.StartAsync(parameters);
+                Group? Group = null;
+                Wantsspy? WantsSpy = null;
+                Cansavequestion? CanSaveQuestion = null;
+
+                if (unmon) Group = OAS.Group.Unmon;
+                if (wantsspy) WantsSpy = Wantsspy._1;
+                if (cansavequestion) CanSaveQuestion = Cansavequestion._1;
+
+                Start_response startresult = await _OmegleClient.StartAsync(Rcs._1, Firstevents._1, _RandId, Group, null, lang, topics, WantsSpy, question, CanSaveQuestion);
                 _ClientID = startresult.ClientID;
+                Debug.WriteLine("Omegle.NET.Lib.Client: Received ClientID: " + _ClientID);
                 await HandleEvents(startresult.Events);
                 _EventsTimer.Enabled = true;
             }

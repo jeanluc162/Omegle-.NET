@@ -34,12 +34,69 @@ paths:
   /start:
     post:
       summary: 'Starts a new Chat'
-      requestBody:
-        required: true
-        content:
-          application/x-www-form-urlencoded:
-            schema:
-              $ref: '#/components/schemas/start_params'
+      parameters:
+        - name: rcs
+          in: query
+          required: true
+          schema:
+            type: integer
+            enum: [1]
+        - name: firstevents
+          in: query
+          required: true
+          schema:
+            type: integer
+            enum: [0,1]
+        - name: randid
+          in: query
+          required: true
+          schema:
+            type: string
+          description: >-
+            Random Characters using numbers from 2 to 9 and letters between A
+            and Z, but excluding "I" and "O"
+        - name: group
+          in: query
+          description: 'Joins unmoderated chat'
+          schema:
+            type: string
+            enum: [unmon]
+        - name: m
+          in: query
+          description: 'Imitates mobile connection'
+          schema:
+            type: integer
+            enum: [1]
+        - name: lang
+          in: query
+          description: 'Two letter language code'
+          schema:
+            type: string
+            default: en
+        - name: topics
+          in: query
+          description: 'Shared topics. Only works for normal mode.'
+          schema:
+            type: array
+            items:
+              type: string
+        - name: wantsspy
+          in: query
+          description: 'Spyee mode'
+          schema:
+            type: integer
+            enum: [1]
+        - name: ask
+          in: query
+          description: 'Question (Spyer mode)'
+          schema:
+            type: string
+        - name: cansavequestion
+          in: query
+          description: 'Allows Omegle to reuse your question'
+          schema:
+            type: integer
+            enum: [1]
       responses:
         '200':
           description: 'OK'
@@ -145,7 +202,7 @@ paths:
                 $ref: '#/components/schemas/text_response'
 security: []
 servers:
-  - url: 'https://{server}'
+  - url: https://{server}
     description: ''
     variables:
       server:
@@ -163,54 +220,6 @@ components:
           description: 'The clientID received from /start'
       required:
         - id
-    start_params:
-      type: object
-      properties:
-        rcs:
-          type: integer
-          default: 1
-          enum: [1]
-        firstevents:
-          type: integer
-          default: 1
-          enum: [0,1]
-        randid:
-          type: string
-          description: >-
-            Random Characters using numbers from 2 to 9 and letters between A
-            and Z, but excluding "I" and "O"
-        group:
-          type: string
-          description: 'Joins unmoderated chat'
-          enum: [unmon]
-        m:
-          type: integer
-          description: 'Imitates mobile connection'
-          enum: [1]
-        lang:
-          type: string
-          description: 'Two letter language code'
-          default: en
-        topics:
-          description: 'Shared topics. Only works for normal mode.'
-          type: array
-          items:
-            type: string
-        wantsspy:
-          description: 'Spyee mode'
-          type: integer
-          enum: [1]
-        ask:
-          description: 'Question (Spyer mode)'
-          type: string
-        cansavequestion:
-          description: 'Allows Omegle to reuse your question'
-          type: integer
-          enum: [1]
-      required:
-        - rcs
-        - firstevents
-        - randid
     events_response:
       externalDocs:
         description: Event description
