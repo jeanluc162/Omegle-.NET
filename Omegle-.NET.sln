@@ -5,7 +5,7 @@ VisualStudioVersion = 16.0.31005.135
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Omegle.NET.Lib", "Omegle.NET.Lib\Omegle.NET.Lib.csproj", "{9AA31C56-85BB-4AAA-8313-2FF0FF11F3A7}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Omegle.NET.Examples.GUI", "Omegle.NET.Examples.GUI\Omegle.NET.Examples.GUI.csproj", "{1C8BF406-2B36-455C-8D6A-A8597FAC7325}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Omegle.Net.Test", "Omegle.Net.Test\Omegle.Net.Test.csproj", "{F6488435-6146-4E8E-B86B-824F5D72372A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -17,10 +17,10 @@ Global
 		{9AA31C56-85BB-4AAA-8313-2FF0FF11F3A7}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9AA31C56-85BB-4AAA-8313-2FF0FF11F3A7}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9AA31C56-85BB-4AAA-8313-2FF0FF11F3A7}.Release|Any CPU.Build.0 = Release|Any CPU
-		{1C8BF406-2B36-455C-8D6A-A8597FAC7325}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{1C8BF406-2B36-455C-8D6A-A8597FAC7325}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{1C8BF406-2B36-455C-8D6A-A8597FAC7325}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{1C8BF406-2B36-455C-8D6A-A8597FAC7325}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F6488435-6146-4E8E-B86B-824F5D72372A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F6488435-6146-4E8E-B86B-824F5D72372A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F6488435-6146-4E8E-B86B-824F5D72372A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F6488435-6146-4E8E-B86B-824F5D72372A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
